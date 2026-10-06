@@ -1,0 +1,74 @@
+name: Build IPA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-15
+    env:
+      PGYER_API_KEY: ${{ secrets.PGYER_API_KEY }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Select latest Xcode
+        run: |
+          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$LATEST_XCODE" ]; then sudo xcode-select -s "$LATEST_XCODE/Contents/Developer"; fi
+          xcodebuild -version
+
+      - name: Restore app icon
+        run: |
+          openssl base64 -d -in assets/Icon-1024.png.b64 -out MusicPlayer/Assets.xcassets/AppIcon.appiconset/Icon-1024.png
+          ls -lh MusicPlayer/Assets.xcassets/AppIcon.appiconset/Icon-1024.png
+
+      - name: Install signing assets
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          CERT_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          echo -n "$BUILD_CERTIFICATE_BASE64" | openssl base64 -d -out "$CERT_PATH"
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | openssl base64 -d -out "$PP_PATH"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security import "$CERT_PATH" -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security list-keychain -d user -s "$KEYCHAIN_PATH"
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp "$PP_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Archive
+        run: |
+          xcodebuild -project MusicPlayer.xcodeproj \
+            -scheme MusicPlayer \
+            -configuration Release \
+            -destination 'generic/platform=iOS' \
+            -archivePath "$RUNNER_TEMP/MusicPlayer.xcarchive" \
+            archive
+
+      - name: Export IPA
+        run: |
+          xcodebuild -exportArchive \
+            -archivePath "$RUNNER_TEMP/MusicPlayer.xcarchive" \
+            -exportPath "$RUNNER_TEMP/build" \
+            -exportOptionsPlist ExportOptions.plist
+          ls -lh "$RUNNER_TEMP/build"
+
+      - name: Upload IPA artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: MusicPlayer-ipa
+          path: ${{ runner.temp }}/build/*.ipa
+
+      - name: Upload to Pgyer
+        if: env.PGYER_API_KEY != ''
+        run: |
+          IPA=$(ls ${{ runner.temp }}/build/*.ipa | head -1)
+          curl -F "_api_key=$PGYER_API_KEY" -F "file=@$IPA" https://www.pgyer.com/apiv2/app/upload
