@@ -199,10 +199,6 @@ struct DiscoverView: View {
                                         .foregroundColor(.white)
                                 }
                                 .frame(width: 110, height: 110)
-                                Text(chart.name)
-                                    .font(.caption)
-                                    .foregroundColor(.white.opacity(0.85))
-                                    .lineLimit(1)
                             }
                         }
                         .buttonStyle(.plain)
