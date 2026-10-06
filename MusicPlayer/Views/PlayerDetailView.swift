@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// 全屏播放器：封面 / 进度 / 控制 / 音量 / 倍速 / 睡眠定时 / 队列
+/// 全屏播放器：封面/歌词 / 进度 / 控制 / 音量 / 倍速 / 睡眠定时 / 评论 / 队列
 struct PlayerDetailView: View {
     @EnvironmentObject private var player: AudioPlayerManager
     @EnvironmentObject private var favorites: FavoriteStore
@@ -8,6 +8,10 @@ struct PlayerDetailView: View {
 
     @State private var draggingTime: Double?
     @State private var showSleepOptions = false
+    @State private var showComments = false
+    @State private var showLyrics = false
+
+    private var onlineSongId: Int? { player.currentTrack?.onlineSongId }
 
     var body: some View {
         ZStack {
@@ -21,20 +25,43 @@ struct PlayerDetailView: View {
                     .padding(.top, 8)
 
                 if let track = player.currentTrack {
-                    ArtworkView(track: track)
-                        .frame(width: 250, height: 250)
-                        .cornerRadius(28)
-                        .shadow(color: .cyan.opacity(0.25), radius: 30)
+                    // 封面 / 歌词切换
+                    Group {
+                        if showLyrics, track.isOnline {
+                            LyricsView(songId: onlineSongId)
+                                .frame(height: 280)
+                        } else {
+                            ArtworkView(track: track)
+                                .frame(width: 250, height: 250)
+                                .cornerRadius(28)
+                                .shadow(color: .cyan.opacity(0.25), radius: 30)
+                        }
+                    }
+                    .onTapGesture {
+                        if track.isOnline { showLyrics.toggle() }
+                    }
 
                     VStack(spacing: 4) {
-                        Text(track.title)
-                            .font(.title2).bold()
-                            .foregroundColor(.white)
-                            .lineLimit(1)
+                        HStack(spacing: 6) {
+                            if track.isOnline {
+                                Image(systemName: "cloud.fill")
+                                    .font(.caption)
+                                    .foregroundColor(.cyan.opacity(0.8))
+                            }
+                            Text(track.title)
+                                .font(.title2).bold()
+                                .foregroundColor(.white)
+                                .lineLimit(1)
+                        }
                         Text("\(track.artist) · \(track.album)")
                             .font(.subheadline)
                             .foregroundColor(.gray)
                             .lineLimit(1)
+                        if track.isOnline {
+                            Text("点击封面查看歌词")
+                                .font(.caption2)
+                                .foregroundColor(.gray.opacity(0.7))
+                        }
                     }
 
                     // 进度条
@@ -118,7 +145,7 @@ struct PlayerDetailView: View {
                             .foregroundColor(.gray).font(.caption)
                     }
 
-                    // 倍速 / 睡眠 / 收藏 / 删除文件
+                    // 倍速 / 睡眠 / 评论 / 收藏 / 删除
                     HStack(spacing: 10) {
                         Button("\(player.rateText) 倍速") { player.cycleRate() }
                             .buttonStyle(.bordered).tint(.cyan)
@@ -131,19 +158,29 @@ struct PlayerDetailView: View {
                                 Button("30 分钟") { player.startSleepTimer(minutes: 30) }
                                 Button("60 分钟") { player.startSleepTimer(minutes: 60) }
                             }
+                        if track.isOnline {
+                            Button {
+                                showComments = true
+                            } label: {
+                                Image(systemName: "bubble.left")
+                            }
+                            .buttonStyle(.bordered).tint(.cyan)
+                        }
                         Button {
                             favorites.toggle(track)
                         } label: {
                             Image(systemName: favorites.isFavorite(track) ? "heart.fill" : "heart")
                         }
                         .buttonStyle(.bordered).tint(.pink)
-                        Button(role: .destructive) {
-                            library.delete(track)
-                            favorites.remove(id: track.id)
-                        } label: {
-                            Image(systemName: "trash")
+                        if !track.isOnline {
+                            Button(role: .destructive) {
+                                library.delete(track)
+                                favorites.remove(id: track.id)
+                            } label: {
+                                Image(systemName: "trash")
+                            }
+                            .buttonStyle(.bordered).tint(.red)
                         }
-                        .buttonStyle(.bordered).tint(.red)
                     }
                     .font(.caption)
 
@@ -157,6 +194,11 @@ struct PlayerDetailView: View {
                 Spacer(minLength: 0)
             }
             .padding(.horizontal, 24)
+        }
+        .sheet(isPresented: $showComments) {
+            if let track = player.currentTrack {
+                CommentsView(songId: track.onlineSongId, songTitle: track.title)
+            }
         }
     }
 
@@ -173,6 +215,10 @@ struct PlayerDetailView: View {
                             if player.currentTrack?.id == track.id {
                                 Image(systemName: "waveform")
                                     .foregroundColor(.cyan).font(.caption)
+                            }
+                            if track.isOnline {
+                                Image(systemName: "cloud")
+                                    .foregroundColor(.cyan.opacity(0.7)).font(.caption2)
                             }
                             Text(track.title)
                                 .foregroundColor(.white)

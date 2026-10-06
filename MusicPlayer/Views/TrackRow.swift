@@ -16,10 +16,17 @@ struct TrackRow: View {
                 .cornerRadius(12)
 
             VStack(alignment: .leading, spacing: 3) {
-                Text(track.title)
-                    .font(.system(size: 15, weight: .semibold))
-                    .foregroundColor(isCurrent ? .cyan : .white)
-                    .lineLimit(1)
+                HStack(spacing: 4) {
+                    Text(track.title)
+                        .font(.system(size: 15, weight: .semibold))
+                        .foregroundColor(isCurrent ? .cyan : .white)
+                        .lineLimit(1)
+                    if track.isOnline {
+                        Image(systemName: "cloud")
+                            .font(.caption2)
+                            .foregroundColor(.cyan.opacity(0.8))
+                    }
+                }
                 Text(track.artist)
                     .font(.system(size: 12))
                     .foregroundColor(.gray)

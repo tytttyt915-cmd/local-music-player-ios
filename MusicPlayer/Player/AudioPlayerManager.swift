@@ -226,7 +226,7 @@ final class AudioPlayerManager: ObservableObject {
 
     private func playCurrent() {
         guard let track = currentTrack else { return }
-        let item = AVPlayerItem(url: track.fileURL)
+        let item = AVPlayerItem(url: track.playbackURL)
         if player == nil {
             player = AVPlayer()
             player?.volume = volume
@@ -369,6 +369,18 @@ final class AudioPlayerManager: ObservableObject {
         ]
         if let data = track.artworkData, let image = UIImage(data: data) {
             info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+        } else if let artworkURL = track.artworkURL {
+            // 在线歌曲：异步拉封面，拿到后刷新锁屏信息
+            let trackId = track.id
+            Task {
+                if let (data, _) = try? await URLSession.shared.data(from: artworkURL),
+                   let image = UIImage(data: data),
+                   self.currentTrack?.id == trackId {
+                    var updated = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
+                    updated[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
+                    MPNowPlayingInfoCenter.default().nowPlayingInfo = updated
+                }
+            }
         }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
     }

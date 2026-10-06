@@ -1,7 +1,7 @@
 import SwiftUI
 import UIKit
 
-/// 封面：有内嵌图用内嵌图，否则用几何占位图
+/// 封面：有内嵌图用内嵌图，有远程 URL 用 AsyncImage，否则用几何占位图
 struct ArtworkView: View {
     let track: Track
 
@@ -11,6 +11,19 @@ struct ArtworkView: View {
                 Image(uiImage: uiImage)
                     .resizable()
                     .scaledToFill()
+            } else if let url = track.artworkURL {
+                AsyncImage(url: url) { phase in
+                    switch phase {
+                    case .success(let image):
+                        image.resizable().scaledToFill()
+                    case .failure:
+                        GeometricPlaceholder(seed: track.id)
+                    case .empty:
+                        GeometricPlaceholder(seed: track.id)
+                    @unknown default:
+                        GeometricPlaceholder(seed: track.id)
+                    }
+                }
             } else {
                 GeometricPlaceholder(seed: track.id)
             }
