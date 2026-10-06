@@ -18,7 +18,6 @@
 		B1B2C3D4E5F6000100000009 /* TrackRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000009 /* TrackRow.swift */; };
 		B1B2C3D4E5F6000100000010 /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000010 /* ArtworkView.swift */; };
 		B1B2C3D4E5F6000100000011 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000011 /* PlayerBar.swift */; };
-		B1B2C3D4E5F6000100000012 /* PlayerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000012 /* PlayerDetailView.swift */; };
 		B1B2C3D4E5F6000100000016 /* NeteaseAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000018 /* NeteaseAPI.swift */; };
 		B1B2C3D4E5F6000100000013 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000015 /* AVFoundation.framework */; };
 		B1B2C3D4E5F6000100000014 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1B2C3D4E5F6000100000016 /* MediaPlayer.framework */; };
@@ -30,6 +29,7 @@
 		572F08D8407E578A327F088E /* FullPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD87A83EF6F6D78D5824C28 /* FullPlayerView.swift */; };
 		20A7AE34EDA879126EA9518B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD007029AC770324B353228 /* ProfileView.swift */; };
 		98216C3D7734E473DC860DC8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */; };
+		491172DB1C98463BB79D61AD /* OnlineSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED32C20A454F53AA0B3639 /* OnlineSearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,7 +44,6 @@
 		C1B2C3D4E5F6000100000009 /* TrackRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRow.swift; sourceTree = "<group>"; };
 		C1B2C3D4E5F6000100000010 /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
 		C1B2C3D4E5F6000100000011 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
-		C1B2C3D4E5F6000100000012 /* PlayerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailView.swift; sourceTree = "<group>"; };
 		C1B2C3D4E5F6000100000013 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1B2C3D4E5F6000100000014 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1B2C3D4E5F6000100000015 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -58,6 +57,7 @@
 		4DD87A83EF6F6D78D5824C28 /* FullPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPlayerView.swift; sourceTree = "<group>"; };
 		0BD007029AC770324B353228 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		81ED32C20A454F53AA0B3639 /* OnlineSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineSearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,12 +117,12 @@
 		D1B2C3D4E5F6000100000005 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				81ED32C20A454F53AA0B3639 /* OnlineSearchView.swift */,
 				C1B2C3D4E5F6000100000007 /* StarfieldView.swift */,
 				C1B2C3D4E5F6000100000008 /* ContentView.swift */,
 				C1B2C3D4E5F6000100000009 /* TrackRow.swift */,
 				C1B2C3D4E5F6000100000010 /* ArtworkView.swift */,
 				C1B2C3D4E5F6000100000011 /* PlayerBar.swift */,
-				C1B2C3D4E5F6000100000012 /* PlayerDetailView.swift */,
 			
 				DD25FECF6C0C0051F6D0E626 /* DiscoverView.swift */,
 				FF0955D5A2B91D3472DA3FBC /* PlaylistPlazaView.swift */,
@@ -215,6 +215,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				491172DB1C98463BB79D61AD /* OnlineSearchView.swift in Sources */,
 				B1B2C3D4E5F6000100000001 /* MusicPlayerApp.swift in Sources */,
 				B1B2C3D4E5F6000100000002 /* Track.swift in Sources */,
 				B1B2C3D4E5F6000100000003 /* FavoriteStore.swift in Sources */,
@@ -226,7 +227,6 @@
 				B1B2C3D4E5F6000100000009 /* TrackRow.swift in Sources */,
 				B1B2C3D4E5F6000100000010 /* ArtworkView.swift in Sources */,
 				B1B2C3D4E5F6000100000011 /* PlayerBar.swift in Sources */,
-				B1B2C3D4E5F6000100000012 /* PlayerDetailView.swift in Sources */,
 				B1B2C3D4E5F6000100000016 /* NeteaseAPI.swift in Sources */,
 			
 				BAE2BAEAD692DB793E63CF9A /* DiscoverView.swift in Sources */,
