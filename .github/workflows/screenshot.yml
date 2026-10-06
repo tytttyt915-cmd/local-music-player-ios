@@ -1,0 +1,60 @@
+name: Simulator Screenshots
+
+on:
+  workflow_dispatch:
+
+jobs:
+  screenshot:
+    runs-on: macos-15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select latest Xcode
+        run: |
+          LATEST_XCODE=$(ls -d /Applications/Xcode_*.app 2>/dev/null | sort -V | tail -1)
+          if [ -n "$LATEST_XCODE" ]; then sudo xcode-select -s "$LATEST_XCODE/Contents/Developer"; fi
+          xcodebuild -version
+
+      - name: Build for Simulator
+        run: |
+          xcodebuild -project MusicPlayer.xcodeproj \
+            -scheme MusicPlayer \
+            -sdk iphonesimulator \
+            -configuration Debug \
+            -derivedDataPath ./DerivedData \
+            build 2>&1 | tail -20
+
+      - name: Boot iPhone Simulator and Take Screenshots
+        run: |
+          # Find and boot an iPhone simulator (prefer iPhone 16 or similar)
+          DEVICE=$(xcrun simctl list devices available | grep -E "iPhone 1[456]" | head -1 | sed -E 's/.*\(([-A-F0-9]+)\).*/\1/')
+          if [ -z "$DEVICE" ]; then
+            DEVICE=$(xcrun simctl list devices available | grep "iPhone" | head -1 | sed -E 's/.*\(([-A-F0-9]+)\).*/\1/')
+          fi
+          echo "Using device: $DEVICE"
+          xcrun simctl boot "$DEVICE" 2>/dev/null || true
+          sleep 10
+          
+          # Find the built app
+          APP_PATH=$(find ./DerivedData -name "MusicPlayer.app" -type d | head -1)
+          echo "App path: $APP_PATH"
+          
+          # Install and launch
+          xcrun simctl install "$DEVICE" "$APP_PATH"
+          BUNDLE_ID=$(plutil -extract CFBundleIdentifier raw "$APP_PATH/Info.plist")
+          echo "Bundle ID: $BUNDLE_ID"
+          xcrun simctl launch "$DEVICE" "$BUNDLE_ID"
+          sleep 8
+          
+          # Take screenshots
+          mkdir -p ./screenshots
+          xcrun simctl io "$DEVICE" screenshot ./screenshots/home.png
+          echo "Screenshot saved"
+          ls -lh ./screenshots/
+
+      - name: Upload Screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulator-screenshots
+          path: ./screenshots/
