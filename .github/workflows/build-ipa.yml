@@ -30,6 +30,9 @@ jobs:
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
           echo -n "$BUILD_CERTIFICATE_BASE64" | openssl base64 -d -out "$CERT_PATH"
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | openssl base64 -d -out "$PP_PATH"
+          echo "DIAG cert file size:"; wc -c "$CERT_PATH"
+          echo "DIAG cert file head:"; xxd -l 16 "$CERT_PATH"
+          openssl pkcs12 -in "$CERT_PATH" -noout -passin pass:"$P12_PASSWORD" && echo "DIAG OPENSSL_P12_OK" || echo "DIAG OPENSSL_P12_FAIL"
           security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
           security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
