@@ -20,7 +20,7 @@ jobs:
 
       - name: Install signing assets
         env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.CERT_P12_B64 }}
           P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
@@ -28,6 +28,9 @@ jobs:
           CERT_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          echo "DIAG cert b64 len: ${#BUILD_CERTIFICATE_BASE64}"
+          echo "DIAG pp b64 len: ${#BUILD_PROVISION_PROFILE_BASE64}"
+          echo "DIAG p12pw len: ${#P12_PASSWORD}"
           echo -n "$BUILD_CERTIFICATE_BASE64" | openssl base64 -d -out "$CERT_PATH"
           echo -n "$BUILD_PROVISION_PROFILE_BASE64" | openssl base64 -d -out "$PP_PATH"
           echo "DIAG cert file size:"; wc -c "$CERT_PATH"
