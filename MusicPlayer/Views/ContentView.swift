@@ -6,8 +6,44 @@ struct ContentView: View {
     @StateObject private var player = AudioPlayerManager()
     @StateObject private var favorites = FavoriteStore()
 
-    @State private var showImporter = false
     @State private var showPlayer = false
+
+    var body: some View {
+        ZStack {
+            TabView {
+                LocalLibraryView()
+                    .tabItem {
+                        Label("本地", systemImage: "music.note.house")
+                    }
+
+                SearchView()
+                    .tabItem {
+                        Label("发现", systemImage: "magnifyingglass")
+                    }
+            }
+            .tint(.cyan)
+
+            VStack {
+                Spacer()
+                PlayerBar { showPlayer = true }
+            }
+        }
+        .environmentObject(player)
+        .environmentObject(library)
+        .environmentObject(favorites)
+        .sheet(isPresented: $showPlayer) {
+            PlayerDetailView()
+        }
+    }
+}
+
+/// 本地 Tab：原来的首页内容（电台卡片 / 快捷操作 / 本地歌曲列表）
+struct LocalLibraryView: View {
+    @EnvironmentObject private var library: LibraryStore
+    @EnvironmentObject private var player: AudioPlayerManager
+    @EnvironmentObject private var favorites: FavoriteStore
+
+    @State private var showImporter = false
     @State private var searchText = ""
     @State private var favoritesOnly = false
     @State private var quoteIndex = 0
@@ -68,17 +104,6 @@ struct ContentView: View {
                 .padding(.top, 12)
                 .padding(.bottom, 110)
             }
-
-            VStack {
-                Spacer()
-                PlayerBar { showPlayer = true }
-            }
-        }
-        .environmentObject(player)
-        .environmentObject(library)
-        .environmentObject(favorites)
-        .sheet(isPresented: $showPlayer) {
-            PlayerDetailView()
         }
         .fileImporter(
             isPresented: $showImporter,
