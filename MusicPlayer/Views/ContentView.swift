@@ -51,7 +51,7 @@ struct ContentView: View {
                         customTabBar(geo: geo)
                     }
                 }
-                .padding(.bottom, geo.safeAreaInsets.bottom + 8)
+                .padding(.bottom, 0)
             }
             .ignoresSafeArea()
         }
@@ -132,13 +132,14 @@ struct ContentView: View {
             .buttonStyle(.plain)
         }
         .padding(.horizontal, 8)
+        .padding(.top, 8)
+        .padding(.bottom, geo.safeAreaInsets.bottom)
         .background(
-            Capsule()
+            Rectangle()
                 .fill(.ultraThinMaterial)
-                .overlay(Capsule().stroke(Color.white.opacity(0.15), lineWidth: 1))
-                .shadow(color: .black.opacity(0.35), radius: 16, y: 6)
+                .overlay(Rectangle().stroke(Color.white.opacity(0.12), lineWidth: 0.5))
+                .ignoresSafeArea(edges: .bottom)
         )
-        .padding(.horizontal, 20)
     }
 
     private func tabButton(index: Int, icon: String, title: String) -> some View {
