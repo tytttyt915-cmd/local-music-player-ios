@@ -25,9 +25,8 @@ jobs:
             -derivedDataPath ./DerivedData \
             build 2>&1 | tail -20
 
-      - name: Boot iPhone Simulator and Take Screenshots
+      - name: Boot iPhone Simulator and Take Screenshots (3 rounds)
         run: |
-          # Find and boot an iPhone simulator (prefer iPhone 16 or similar)
           DEVICE=$(xcrun simctl list devices available | grep -E "iPhone 1[456]" | head -1 | sed -E 's/.*\(([-A-F0-9]+)\).*/\1/')
           if [ -z "$DEVICE" ]; then
             DEVICE=$(xcrun simctl list devices available | grep "iPhone" | head -1 | sed -E 's/.*\(([-A-F0-9]+)\).*/\1/')
@@ -36,25 +35,42 @@ jobs:
           xcrun simctl boot "$DEVICE" 2>/dev/null || true
           sleep 10
           
-          # Find the built app
           APP_PATH=$(find ./DerivedData -name "MusicPlayer.app" -type d | head -1)
           echo "App path: $APP_PATH"
           
-          # Install and launch
           xcrun simctl install "$DEVICE" "$APP_PATH"
           BUNDLE_ID=$(plutil -extract CFBundleIdentifier raw "$APP_PATH/Info.plist")
           echo "Bundle ID: $BUNDLE_ID"
+          
+          mkdir -p ./screenshots
+          
+          # Round 1: Home/Discover tab
+          echo "=== Round 1: Discover ==="
           xcrun simctl launch "$DEVICE" "$BUNDLE_ID"
           sleep 8
+          xcrun simctl io "$DEVICE" screenshot ./screenshots/round1-discover.png
           
-          # Take screenshots
-          mkdir -p ./screenshots
-          xcrun simctl io "$DEVICE" screenshot ./screenshots/home.png
-          echo "Screenshot saved"
+          # Round 2: Terminate and relaunch (fresh launch test)
+          echo "=== Round 2: Fresh launch ==="
+          xcrun simctl terminate "$DEVICE" "$BUNDLE_ID" 2>/dev/null || true
+          sleep 3
+          xcrun simctl launch "$DEVICE" "$BUNDLE_ID"
+          sleep 8
+          xcrun simctl io "$DEVICE" screenshot ./screenshots/round2-relaunch.png
+          
+          # Round 3: Another fresh launch (consistency check)
+          echo "=== Round 3: Consistency check ==="
+          xcrun simctl terminate "$DEVICE" "$BUNDLE_ID" 2>/dev/null || true
+          sleep 3
+          xcrun simctl launch "$DEVICE" "$BUNDLE_ID"
+          sleep 8
+          xcrun simctl io "$DEVICE" screenshot ./screenshots/round3-final.png
+          
+          echo "All 3 rounds done"
           ls -lh ./screenshots/
 
       - name: Upload Screenshots
         uses: actions/upload-artifact@v4
         with:
-          name: simulator-screenshots
+          name: simulator-screenshots-3rounds
           path: ./screenshots/
