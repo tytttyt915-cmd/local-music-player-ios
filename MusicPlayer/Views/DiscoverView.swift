@@ -17,6 +17,7 @@ struct DiscoverView: View {
     @State private var selectedArtist: OnlineArtist?
 
     var body: some View {
+        GeometryReader { geo in
         ZStack {
             background
 
@@ -29,9 +30,11 @@ struct DiscoverView: View {
                     recommendedPlaylistsSection
                     artistsSection
                 }
-                .padding(.top, 8)
-                .padding(.bottom, 140) // 迷你播放条 + 底栏空间
+                .padding(.top, max(geo.safeAreaInsets.top, 16) + 44)
+                .padding(.bottom, 20)
+                .frame(minHeight: geo.size.height)
             }
+        }
         }
         .sheet(isPresented: $showSearch) { OnlineSearchView() }
         .sheet(isPresented: $showPlaylistPlaza) {
