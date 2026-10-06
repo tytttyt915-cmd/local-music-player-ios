@@ -42,16 +42,17 @@ struct ContentView: View {
                 .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
 
                 // 悬浮底栏：精确贴底，考虑安全区
-                VStack(spacing: 8) {
+                VStack(spacing: 0) {
                     if player.currentTrack != nil {
                         MiniPlayerBar { showFullPlayer = true }
                             .padding(.horizontal, 16)
+                            .padding(.bottom, 8)
                     }
                     if !theme.tabBarHidden {
                         customTabBar(geo: geo)
                     }
                 }
-                .padding(.bottom, 0)
+                .background(Color.black.ignoresSafeArea(edges: .bottom))
             }
             .ignoresSafeArea()
         }
@@ -132,14 +133,13 @@ struct ContentView: View {
             .buttonStyle(.plain)
         }
         .padding(.horizontal, 8)
-        .padding(.top, 8)
-        .padding(.bottom, geo.safeAreaInsets.bottom)
+        .padding(.top, 12)
+        .padding(.bottom, geo.safeAreaInsets.bottom + 4)
         .background(
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .overlay(Rectangle().stroke(Color.white.opacity(0.12), lineWidth: 0.5))
+            Color.black
                 .ignoresSafeArea(edges: .bottom)
         )
+        .background(.ultraThinMaterial)
     }
 
     private func tabButton(index: Int, icon: String, title: String) -> some View {
