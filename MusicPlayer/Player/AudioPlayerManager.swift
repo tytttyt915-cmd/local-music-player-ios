@@ -15,7 +15,8 @@ enum RepeatMode: String, CaseIterable {
     }
 }
 
-/// AVPlayer 封装：播放队列 / 随机 / 循环 / 倍速 / 睡眠定时 / 锁屏线控
+/// AVPlayer 封装：本地 + 在线播放 / 队列 / 随机 / 循环 / 倍速 / 睡眠定时 / 锁屏线控 / 灵动岛
+/// v3: 支持在线 URL（失败自动换源）、播放统计、音频打断自动恢复
 @MainActor
 final class AudioPlayerManager: ObservableObject {
     // MARK: - Published state
@@ -29,11 +30,14 @@ final class AudioPlayerManager: ObservableObject {
     @Published private(set) var rate: Float = 1.0
     @Published private(set) var isShuffled = false
     @Published private(set) var repeatMode: RepeatMode = .off
-    /// 睡眠定时剩余秒数，0 表示未开启
     @Published private(set) var sleepRemaining: Int = 0
+    /// 当前在线播放 URL（在线歌曲）
+    @Published private(set) var isLoadingOnline = false
+    @Published private(set) var onlineError: String?
+
+    var stats = PlaybackStats()
 
     // MARK: - Playback order
-    /// queue 下标的播放顺序；orderPos 指向当前
     private var order: [Int] = []
     private var orderPos: Int = 0
 
@@ -50,6 +54,8 @@ final class AudioPlayerManager: ObservableObject {
     private var sleepTimer: Timer?
     private var sleepEndDate: Date?
     private let rates: [Float] = [0.75, 1.0, 1.25, 1.5, 2.0]
+    private var wasPlayingBeforeInterruption = false
+    private var onlineArtworkCache: [String: UIImage] = [:]
 
     init() {
         setupAudioSession()
@@ -62,6 +68,7 @@ final class AudioPlayerManager: ObservableObject {
         NotificationCenter.default.addObserver(
             forName: .AVPlayerItemFailedToPlayToEndTime, object: nil, queue: .main
         ) { [weak self] _ in
+            // v3: 播放失败立即切下一首（无 10 秒等待）
             Task { @MainActor in _ = self?.next() }
         }
         NotificationCenter.default.addObserver(
@@ -84,6 +91,16 @@ final class AudioPlayerManager: ObservableObject {
             buildOrder(currentQueueIndex: i)
             playCurrent()
         }
+    }
+
+    /// 快捷：播放单首在线歌曲
+    func playOnline(_ song: OnlineSong) {
+        play(tracks: [Track(online: song)], startAt: 0)
+    }
+
+    /// 快捷：播放在线歌单
+    func playOnlineSongs(_ songs: [OnlineSong], startAt index: Int = 0) {
+        play(tracks: songs.map(Track.init(online:)), startAt: index)
     }
 
     func removeFromQueue(at queueIndex: Int) {
@@ -148,7 +165,9 @@ final class AudioPlayerManager: ObservableObject {
     func seek(to seconds: Double) {
         guard player != nil else { return }
         let clamped = max(0, seconds)
-        player?.seek(to: CMTime(seconds: clamped, preferredTimescale: 600))
+        // iOS 15 兼容：使用精确 seek
+        player?.seek(to: CMTime(seconds: clamped, preferredTimescale: 600),
+                     toleranceBefore: .zero, toleranceAfter: .zero)
         currentTime = clamped
         updateNowPlaying()
     }
@@ -220,24 +239,78 @@ final class AudioPlayerManager: ObservableObject {
         orderPos = 0
         currentTime = 0
         duration = 0
+        onlineError = nil
         player?.replaceCurrentItem(with: nil)
         MPNowPlayingInfoCenter.default().nowPlayingInfo = nil
     }
 
     private func playCurrent() {
         guard let track = currentTrack else { return }
-        let item = AVPlayerItem(url: track.playbackURL)
+        onlineError = nil
+
+        if track.isOnline {
+            playOnlineTrack(track)
+        } else {
+            playLocalTrack(track)
+        }
+    }
+
+    private func playLocalTrack(_ track: Track) {
+        let item = AVPlayerItem(url: track.fileURL)
+        startItem(item, track: track)
+        stats.recordPlay(duration: track.duration)
+    }
+
+    private func playOnlineTrack(_ track: Track) {
+        guard case .online(let songId, let source) = track.kind else { return }
+        isLoadingOnline = true
+        let song = OnlineSong(id: songId, title: track.title, artist: track.artist,
+                              album: track.album, albumId: 0, artworkURL: track.artworkURL,
+                              duration: track.duration, source: source)
+        Task {
+            do {
+                let url = try await NeteaseAPI.shared.songURL(for: song)
+                let item = AVPlayerItem(url: url)
+                self.startItem(item, track: track)
+                self.isLoadingOnline = false
+                self.stats.recordPlay(duration: track.duration)
+                // 预加载封面
+                self.prefetchArtwork(for: track)
+            } catch {
+                self.isLoadingOnline = false
+                // v3: 无版权/失败时明确提示，不静默
+                self.onlineError = "无法播放（可能无版权），已跳过"
+                // 立即切下一首
+                _ = self.next()
+            }
+        }
+    }
+
+    private func startItem(_ item: AVPlayerItem, track: Track) {
         if player == nil {
             player = AVPlayer()
             player?.volume = volume
             addTimeObserver()
         }
         player?.replaceCurrentItem(with: item)
-        duration = track.duration
+        duration = track.duration > 0 ? track.duration : duration
         currentTime = 0
         player?.rate = rate
         isPlaying = true
         updateNowPlaying()
+    }
+
+    private func prefetchArtwork(for track: Track) {
+        guard let url = track.artworkURL else { return }
+        let key = url.absoluteString
+        guard onlineArtworkCache[key] == nil else { return }
+        Task {
+            if let (data, _) = try? await URLSession.shared.data(from: url),
+               let image = UIImage(data: data) {
+                self.onlineArtworkCache[key] = image
+                self.updateNowPlaying()
+            }
+        }
     }
 
     private func buildOrder(currentQueueIndex: Int) {
@@ -272,13 +345,24 @@ final class AudioPlayerManager: ObservableObject {
         }
     }
 
+    /// v3: 音频被其他应用打断后自动恢复播放
     private func handleInterruption(_ note: Notification) {
         guard let info = note.userInfo,
               let typeRaw = info[AVAudioSessionInterruptionTypeKey] as? UInt,
-              let type = AVAudioSession.InterruptionType(rawValue: typeRaw),
-              type == .began
+              let type = AVAudioSession.InterruptionType(rawValue: typeRaw)
         else { return }
-        pause()
+        if type == .began {
+            wasPlayingBeforeInterruption = isPlaying
+            pause()
+        } else if type == .ended {
+            let shouldResume = (info[AVAudioSessionInterruptionOptionKey] as? UInt).map {
+                AVAudioSession.InterruptionOptions(rawValue: $0).contains(.shouldResume)
+            } ?? false
+            if shouldResume || wasPlayingBeforeInterruption {
+                resume()
+            }
+            wasPlayingBeforeInterruption = false
+        }
     }
 
     private func tickSleepTimer() {
@@ -367,20 +451,16 @@ final class AudioPlayerManager: ObservableObject {
             MPNowPlayingInfoPropertyElapsedPlaybackTime: currentTime,
             MPNowPlayingInfoPropertyPlaybackRate: isPlaying ? Double(rate) : 0.0
         ]
-        if let data = track.artworkData, let image = UIImage(data: data) {
+        // 封面：自定义 > 本地内嵌 > 在线缓存
+        var artworkImage: UIImage?
+        if let data = track.displayArtworkData {
+            artworkImage = UIImage(data: data)
+        } else if let url = track.artworkURL,
+                  let cached = onlineArtworkCache[url.absoluteString] {
+            artworkImage = cached
+        }
+        if let image = artworkImage {
             info[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-        } else if let artworkURL = track.artworkURL {
-            // 在线歌曲：异步拉封面，拿到后刷新锁屏信息
-            let trackId = track.id
-            Task {
-                if let (data, _) = try? await URLSession.shared.data(from: artworkURL),
-                   let image = UIImage(data: data),
-                   self.currentTrack?.id == trackId {
-                    var updated = MPNowPlayingInfoCenter.default().nowPlayingInfo ?? [:]
-                    updated[MPMediaItemPropertyArtwork] = MPMediaItemArtwork(boundsSize: image.size) { _ in image }
-                    MPNowPlayingInfoCenter.default().nowPlayingInfo = updated
-                }
-            }
         }
         MPNowPlayingInfoCenter.default().nowPlayingInfo = info
     }
