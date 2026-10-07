@@ -53,9 +53,7 @@ struct ContentView: View {
             }
             .ignoresSafeArea()
         }
-        .overlay(alignment: .topTrailing) {
-            profileButton
-        }
+
         .environmentObject(player)
         .environmentObject(library)
         .environmentObject(favorites)
