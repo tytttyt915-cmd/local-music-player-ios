@@ -13,7 +13,7 @@ final class LibraryStore: ObservableObject {
 
     private let audioExtensions: Set<String> = [
         "mp3", "m4a", "aac", "wav", "wave", "aiff", "aif",
-        "flac", "ogg", "oga", "opus", "mp4", "m4v"
+        "flac", "mp4", "m4v"
     ]
 
     init() {
