@@ -14,9 +14,9 @@ struct ArtistsView: View {
                 } else {
                     List(artists) { artist in
                         HStack {
-                            Text(artist.name).foregroundColor(theme.textColor)
+                            Text(artist.name).foregroundStyle(theme.textColor)
                             Spacer()
-                            Text("\(artist.songCount)首").font(.caption).foregroundColor(theme.secondaryTextColor)
+                            Text("\(artist.songCount)首").font(.caption).foregroundStyle(theme.secondaryTextColor)
                         }
                     }
                     .listStyle(.plain)

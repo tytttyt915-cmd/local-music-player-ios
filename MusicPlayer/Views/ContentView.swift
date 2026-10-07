@@ -74,13 +74,14 @@ struct ContentView: View {
         .background(glassBackground())
     }
     
-    @ViewBuilder
-    private func glassBackground() -> some View {
+    private func glassBackground() -> AnyView {
         if #available(iOS 26, *) {
-            theme.backgroundColor.opacity(0.5)
-                .glassEffect(.regular, in: .rect(cornerRadius: 0))
+            return AnyView(
+                Color(theme.backgroundColor).opacity(0.5)
+                    .glassEffect(.regular, in: .rect(cornerRadius: 0))
+            )
         } else {
-            theme.backgroundColor.opacity(0.95)
+            return AnyView(Color(theme.backgroundColor).opacity(0.95))
         }
     }
     

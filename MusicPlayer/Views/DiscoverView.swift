@@ -26,7 +26,7 @@ struct DiscoverView: View {
                     }
                 }
                 .padding(10)
-                .background(Color.gray.opacity(0.15))
+                .background(Color(Color.gray).opacity(0.15))
                 .cornerRadius(10)
                 .padding()
                 

@@ -6,7 +6,7 @@ struct TrackRow: View {
     @EnvironmentObject var theme: ThemeSettings
     
     var body: some View {
-        Button { player.play(tracks: [track], startAt: 0) } label: {
+        Button { player.playTracks([track], startAt: 0) } label: {
             HStack {
                 VStack(alignment: .leading) {
                     Text(track.title).foregroundColor(theme.textColor)

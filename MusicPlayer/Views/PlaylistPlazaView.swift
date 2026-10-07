@@ -20,10 +20,10 @@ struct PlaylistPlazaView: View {
                 List(playlists) { playlist in
                     HStack {
                         VStack(alignment: .leading) {
-                            Text(playlist.title).foregroundColor(theme.textColor)
+                            Text(playlist.title).foregroundStyle(theme.textColor)
                             Text("\(playlist.creator) · \(playlist.trackCount)首")
                                 .font(.caption)
-                                .foregroundColor(theme.secondaryTextColor)
+                                .foregroundStyle(theme.secondaryTextColor)
                         }
                         Spacer()
                     }
