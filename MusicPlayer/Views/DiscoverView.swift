@@ -22,6 +22,8 @@ struct DiscoverView: View {
     @State private var artists: [OnlineArtist] = []
     @State private var isLoading = true
     @State private var showSearch = false
+    @State private var showProfile = false
+    @EnvironmentObject private var profile: UserProfile
     @State private var showPlaylistPlaza = false
     @State private var selectedPlaylist: OnlinePlaylist?
     @State private var selectedArtist: OnlineArtist?
@@ -47,6 +49,9 @@ struct DiscoverView: View {
         }
         }
         .sheet(isPresented: $showSearch) { OnlineSearchView() }
+        .sheet(isPresented: $showProfile) {
+            NavigationView { ProfileView() }.navigationViewStyle(.stack)
+        }
         .sheet(isPresented: $showPlaylistPlaza) {
             NavigationView {
                 PlaylistPlazaView()
