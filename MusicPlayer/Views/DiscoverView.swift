@@ -59,9 +59,6 @@ struct DiscoverView: View {
                                         .lineLimit(1)
                                 }
                                 Spacer()
-                                if player.loadingSongId == song.id {
-                                    ProgressView()
-                                }
                             }
                         }
                     }
