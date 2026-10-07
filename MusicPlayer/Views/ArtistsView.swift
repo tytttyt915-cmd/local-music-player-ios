@@ -7,7 +7,12 @@ struct ArtistsView: View {
     @State private var isLoading = false
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+                Text("歌手")
+                    .font(.largeTitle.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
             Group {
                 if isLoading {
                     ProgressView().padding()
@@ -22,7 +27,7 @@ struct ArtistsView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("歌手")
+            
             .background(Color.clear)
         }
         .onAppear { load() }

@@ -6,7 +6,12 @@ struct LocalMusicView: View {
     @EnvironmentObject var theme: ThemeSettings
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+                Text("本地")
+                    .font(.largeTitle.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
             Group {
                 if library.tracks.isEmpty {
                     VStack(spacing: 16) {
@@ -27,7 +32,7 @@ struct LocalMusicView: View {
                     .listStyle(.plain)
                 }
             }
-            .navigationTitle("本地")
+            
             .background(Color.clear)
         }
         .onAppear { library.refresh() }

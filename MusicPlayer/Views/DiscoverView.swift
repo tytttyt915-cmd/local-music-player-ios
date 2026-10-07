@@ -10,7 +10,12 @@ struct DiscoverView: View {
     @State private var errorMessage: String?
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+                Text("发现")
+                    .font(.largeTitle.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
             VStack(spacing: 0) {
                 // 搜索栏
                 HStack {
@@ -66,8 +71,8 @@ struct DiscoverView: View {
                 }
                 Spacer()
             }
-            .navigationTitle("发现")
-            .navigationBarTitleDisplayMode(.large)
+            
+            
             .background(Color.clear)
         }
     }

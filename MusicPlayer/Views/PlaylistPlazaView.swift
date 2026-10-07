@@ -8,7 +8,12 @@ struct PlaylistPlazaView: View {
     @State private var isSearching = false
     
     var body: some View {
-        NavigationView {
+        VStack(spacing: 0) {
+                Text("歌单")
+                    .font(.largeTitle.bold())
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.top, 8)
             VStack {
                 HStack {
                     TextField("搜索歌单", text: $keyword, onCommit: search)
@@ -30,7 +35,7 @@ struct PlaylistPlazaView: View {
                 }
                 .listStyle(.plain)
             }
-            .navigationTitle("歌单广场")
+            
             .background(Color.clear)
         }
     }
