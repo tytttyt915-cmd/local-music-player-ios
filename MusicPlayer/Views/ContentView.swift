@@ -1,107 +1,95 @@
 import SwiftUI
 
-/// 主界面 - 基于Beans模式重写
+/// 主容器：5 Tab + MiniPlayer + FullPlayer
 struct ContentView: View {
-    @StateObject private var player = AudioPlayerManager.shared
-    @StateObject private var theme = ThemeSettings.shared
-    @State private var selectedTab: Tab = .discover
+    @EnvironmentObject var player: AudioPlayerManager
+    @EnvironmentObject var library: LibraryStore
+    @EnvironmentObject var favorites: FavoriteStore
+    @EnvironmentObject var theme: ThemeSettings
+    @EnvironmentObject var profile: UserProfile
+    @EnvironmentObject var api: NeteaseAPI
+    
+    @State private var selectedTab = 0
     @State private var showFullPlayer = false
     
-    enum Tab: String, CaseIterable {
-        case discover = "发现"
-        case playlist = "歌单"
-        case artists = "歌手"
-        case local = "本地"
-        case profile = "我的"
-        
-        var icon: String {
-            switch self {
-            case .discover: return "safari"
-            case .playlist: return "music.note.list"
-            case .artists: return "mic"
-            case .local: return "folder"
-            case .profile: return "person"
-            }
-        }
-    }
-    
     var body: some View {
-        ZStack {
-            // 背景层
-            DynamicAuraBackground()
-            
-            // 内容层
-            TabView(selection: $selectedTab) {
-                DiscoverView()
-                    .tag(Tab.discover)
-                PlaylistPlazaView()
-                    .tag(Tab.playlist)
-                ArtistsView()
-                    .tag(Tab.artists)
-                LocalMusicView()
-                    .tag(Tab.local)
-                ProfileView()
-                    .tag(Tab.profile)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-        }
-        .safeAreaInset(edge: .bottom, spacing: 0) {
-            VStack(spacing: 8) {
-                // Mini播放器
-                if player.currentTrack != nil {
-                    MiniPlayerBar(onTap: { showFullPlayer = true })
-                        .padding(.horizontal, 12)
-                }
-                // 悬浮胶囊TabBar
-                floatingTabBar
-            }
-            .padding(.bottom, 8)
-        }
-        .environmentObject(player)
-        .environmentObject(theme)
-        .fullScreenCover(isPresented: $showFullPlayer) {
-            FullPlayerView()
-        }
-        .ignoresSafeArea()
-    }
-    
-    // 悬浮胶囊TabBar - 参考Beans的KumoneGlassTabBar
-    private var floatingTabBar: some View {
-        HStack(spacing: 0) {
-            ForEach(Tab.allCases, id: \.self) { tab in
-                Button {
-                    selectedTab = tab
-                } label: {
-                    VStack(spacing: 4) {
-                        Image(systemName: tab.icon)
-                            .font(.system(size: 22, weight: .semibold))
-                        Text(tab.rawValue)
-                            .font(.system(size: 10, weight: .semibold))
-                    }
-                    .foregroundColor(selectedTab == tab ? theme.accentColor : .primary.opacity(0.6))
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 8)
-                    .background {
-                        if selectedTab == tab {
-                            Capsule()
-                                .fill(Color.primary.opacity(0.1))
+        GeometryReader { geo in
+            ZStack(alignment: .bottom) {
+                DynamicAuraBackground()
+                
+                VStack(spacing: 0) {
+                    Group {
+                        switch selectedTab {
+                        case 0: DiscoverView()
+                        case 1: PlaylistPlazaView()
+                        case 2: ArtistsView()
+                        case 3: LocalMusicView()
+                        case 4: ProfileView()
+                        default: DiscoverView()
                         }
                     }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.bottom, bottomInset(geo: geo))
+                }
+                
+                VStack(spacing: 0) {
+                    if player.currentTrack != nil {
+                        MiniPlayerBar { showFullPlayer = true }
+                            .padding(.horizontal, 12)
+                            .padding(.bottom, 6)
+                    }
+                    tabBar(geo: geo)
+                }
+            }
+            .ignoresSafeArea()
+        }
+        .sheet(isPresented: $showFullPlayer) {
+            FullPlayerView()
+                .environmentObject(player)
+                .environmentObject(theme)
+        }
+    }
+    
+    private func bottomInset(geo: GeometryProxy) -> CGFloat {
+        let mini: CGFloat = player.currentTrack != nil ? 68 : 0
+        return 84 + mini + geo.safeAreaInsets.bottom
+    }
+    
+    private func tabBar(geo: GeometryProxy) -> some View {
+        HStack(spacing: 0) {
+            ForEach(0..<5, id: \.self) { i in
+                Button { selectedTab = i } label: {
+                    VStack(spacing: 3) {
+                        Image(systemName: icon(i)).font(.system(size: 20))
+                        Text(title(i)).font(.system(size: 10))
+                    }
+                    .foregroundColor(selectedTab == i ? theme.accentColor : .gray)
+                    .frame(maxWidth: .infinity)
                 }
             }
         }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 6)
-        .background {
-            Capsule()
-                .fill(.regularMaterial)
+        .padding(.top, 10)
+        .padding(.bottom, geo.safeAreaInsets.bottom + 10)
+        .background(glassBackground())
+    }
+    
+    private func glassBackground() -> AnyView {
+        if #available(iOS 26, *) {
+            // iOS 26 液态玻璃：半透明背景 + 玻璃效果
+            return AnyView(
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
+            )
+        } else {
+            return AnyView(theme.backgroundColor.opacity(0.95))
         }
-        .overlay {
-            Capsule()
-                .strokeBorder(.white.opacity(0.2), lineWidth: 0.5)
-        }
-        .clipShape(Capsule())
-        .shadow(color: .black.opacity(0.15), radius: 12, y: 4)
-        .padding(.horizontal, 16)
+    }
+    
+    private func icon(_ i: Int) -> String {
+        ["safari", "music.note.list", "mic.fill", "folder.fill", "person.fill"][i]
+    }
+    private func title(_ i: Int) -> String {
+        ["发现", "歌单", "歌手", "本地", "我的"][i]
     }
 }
