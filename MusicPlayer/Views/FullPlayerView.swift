@@ -21,7 +21,7 @@ struct FullPlayerView: View {
                 Button { player.previous() } label: {
                     Image(systemName: "backward.fill").font(.title)
                 }
-                Button { player.togglePlay() } label: {
+                Button { player.togglePlayPause() } label: {
                     Image(systemName: player.isPlaying ? "pause.circle.fill" : "play.circle.fill")
                         .font(.system(size: 60))
                 }

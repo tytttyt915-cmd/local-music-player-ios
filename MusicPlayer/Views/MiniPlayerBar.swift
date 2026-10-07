@@ -14,7 +14,7 @@ struct MiniPlayerBar: View {
                         Text(track.artist).font(.caption).foregroundColor(theme.secondaryTextColor)
                     }
                     Spacer()
-                    Button { player.togglePlay() } label: {
+                    Button { player.togglePlayPause() } label: {
                         Image(systemName: player.isPlaying ? "pause.fill" : "play.fill")
                             .foregroundColor(theme.textColor)
                     }
