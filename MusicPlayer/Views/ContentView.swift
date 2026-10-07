@@ -18,28 +18,25 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .bottom) {
-                // 背景：撑满全屏
+                // 背景：撑满全屏（不设固定 frame，让 ignoresSafeArea 自然铺满）
                 Color.black
-                    .frame(width: geo.size.width, height: geo.size.height)
                     .ignoresSafeArea()
 
                 if let data = theme.wallpaperData, let img = UIImage(data: data) {
                     Image(uiImage: img)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: geo.size.width, height: geo.size.height)
-                        .clipped()
                         .ignoresSafeArea()
                         .opacity(0.35)
                 }
 
-                // 主内容区：精确计算高度，避开底栏
+                // 主内容区：避开底栏
                 VStack(spacing: 0) {
                     tabContent(geo: geo)
                     // 底栏占位
                     Color.clear.frame(height: bottomBarHeight(geo: geo))
                 }
-                .frame(width: geo.size.width, height: geo.size.height, alignment: .top)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
 
                 // 悬浮底栏：精确贴底，考虑安全区
                 VStack(spacing: 0) {
