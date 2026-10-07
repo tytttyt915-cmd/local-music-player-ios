@@ -12,7 +12,7 @@ struct MiniPlayerBar: View {
                     if let track = player.currentTrack {
                         VStack(alignment: .leading, spacing: 2) {
                             Text(track.title)
-                                .font(.subheadline)
+                                .font(Font.subheadline)
                                 .foregroundColor(theme.textColor)
                                 .lineLimit(1)
                             Text(track.artist)
