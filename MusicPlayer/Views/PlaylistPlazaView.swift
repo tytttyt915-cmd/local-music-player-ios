@@ -3,6 +3,7 @@ import SwiftUI
 /// v3 歌单广场：独立页面，含歌单搜索
 struct PlaylistPlazaView: View {
     @EnvironmentObject private var theme: ThemeSettings
+    @EnvironmentObject private var player: AudioPlayerManager
     @State private var playlists: [OnlinePlaylist] = []
     @State private var searchText = ""
     @State private var searchResults: [OnlinePlaylist] = []
