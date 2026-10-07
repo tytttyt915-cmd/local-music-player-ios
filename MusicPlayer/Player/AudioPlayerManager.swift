@@ -33,7 +33,21 @@ final class AudioPlayerManager: ObservableObject {
     @Published private(set) var sleepRemaining: Int = 0
     /// 当前在线播放 URL（在线歌曲）
     @Published private(set) var isLoadingOnline = false
+    @Published private(set) var loadingSongId: String?
     @Published private(set) var onlineError: String?
+    @Published var showErrorAlert = false
+
+    /// 设置在线播放错误并弹窗提示
+    func reportOnlineError(_ message: String) {
+        onlineError = message
+        showErrorAlert = true
+    }
+
+    func clearOnlineError() {
+        onlineError = nil
+        showErrorAlert = false
+        loadingSongId = nil
+    }
 
     var stats = PlaybackStats()
 
