@@ -314,7 +314,7 @@ final class AudioPlayerManager: ObservableObject {
                               duration: track.duration, source: source)
         Task {
             do {
-                let url = try await NeteaseAPI.shared.songURL(for: song)
+                let url = try await NeteaseAPI.shared.songURLWithFallback(for: song)
                 let item = AVPlayerItem(url: url)
                 self.startItem(item, track: track)
                 self.isLoadingOnline = false
