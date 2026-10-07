@@ -63,7 +63,15 @@ struct ContentView: View {
         .accentColor(theme.accentColor)
         .sheet(isPresented: $showFullPlayer) { FullPlayerView() }
         .sheet(isPresented: $showProfile) {
-            NavigationView { ProfileView() }.navigationViewStyle(.stack)
+            NavigationView { 
+                ProfileView()
+                    .environmentObject(player)
+                    .environmentObject(library)
+                    .environmentObject(favorites)
+                    .environmentObject(theme)
+                    .environmentObject(profile)
+                    .environmentObject(api)
+            }.navigationViewStyle(.stack)
         }
     }
 
