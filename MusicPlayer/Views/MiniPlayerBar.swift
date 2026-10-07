@@ -34,7 +34,7 @@ struct MiniPlayerBar: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(BorderlessButtonStyle())
 
                     // 播放/暂停
                     Button { player.togglePlayPause() } label: {
@@ -43,7 +43,7 @@ struct MiniPlayerBar: View {
                             .foregroundColor(.white)
                             .frame(width: 36, height: 36)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(BorderlessButtonStyle())
 
                     // 下一曲
                     Button { _ = player.next() } label: {
@@ -51,7 +51,7 @@ struct MiniPlayerBar: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     }
-                    .buttonStyle(.plain)
+                    .buttonStyle(BorderlessButtonStyle())
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 10)
