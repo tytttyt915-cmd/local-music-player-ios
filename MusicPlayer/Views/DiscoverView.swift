@@ -27,7 +27,7 @@ struct DiscoverView: View {
         isSearching = true
         Task {
             do {
-                let tracks = try await api.search(keyword: keyword)
+                let tracks = try await api.searchSongs(keyword: keyword)
                 await MainActor.run {
                     results = tracks
                     isSearching = false
