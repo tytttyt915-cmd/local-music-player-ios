@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreImage
 
 /// 2.0 旗舰级动态流光背景：根据封面主色调呼吸流动
 struct DynamicAuraBackground: View {
