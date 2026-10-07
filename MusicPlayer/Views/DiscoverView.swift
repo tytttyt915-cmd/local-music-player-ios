@@ -72,9 +72,6 @@ struct DiscoverView: View {
     private var background: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            if theme.liquidEffectEnabled {
-                DynamicAuraBackground(artworkImage: nil)
-            }
 
             if let data = theme.wallpaperData, let uiImage = UIImage(data: data) {
                 Image(uiImage: uiImage)
