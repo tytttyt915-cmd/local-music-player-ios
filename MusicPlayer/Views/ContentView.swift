@@ -76,12 +76,14 @@ struct ContentView: View {
     
     private func glassBackground() -> AnyView {
         if #available(iOS 26, *) {
+            // iOS 26 液态玻璃：半透明背景 + 玻璃效果
             return AnyView(
-                (theme.backgroundColor as Color).opacity(0.5)
-                    .glassEffect(.regular, in: .rect(cornerRadius: 0))
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .glassEffect(.regular.interactive(), in: .rect(cornerRadius: 20))
             )
         } else {
-            return AnyView((theme.backgroundColor as Color).opacity(0.95))
+            return AnyView(theme.backgroundColor.opacity(0.95))
         }
     }
     
