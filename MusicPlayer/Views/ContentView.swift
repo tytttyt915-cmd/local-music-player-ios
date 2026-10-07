@@ -77,11 +77,11 @@ struct ContentView: View {
     private func glassBackground() -> AnyView {
         if #available(iOS 26, *) {
             return AnyView(
-                Color(theme.backgroundColor).opacity(0.5)
+                (theme.backgroundColor as Color).opacity(0.5)
                     .glassEffect(.regular, in: .rect(cornerRadius: 0))
             )
         } else {
-            return AnyView(Color(theme.backgroundColor).opacity(0.95))
+            return AnyView((theme.backgroundColor as Color).opacity(0.95))
         }
     }
     
