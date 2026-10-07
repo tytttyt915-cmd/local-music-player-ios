@@ -3,9 +3,11 @@ import SwiftUI
 struct FullPlayerView: View {
     @EnvironmentObject var player: AudioPlayerManager
     @EnvironmentObject var theme: ThemeSettings
+    @EnvironmentObject var api: NeteaseAPI
     @Environment(\.dismiss) var dismiss
     @State private var sliderValue: Double = 0
     @State private var isSeeking = false
+    @State private var showLyrics = false
     
     var body: some View {
         VStack(spacing: 20) {
@@ -41,6 +43,20 @@ struct FullPlayerView: View {
                     Text(track.artist)
                         .foregroundColor(theme.secondaryTextColor)
                 }
+            }
+            
+            // 歌词按钮
+            if let track = player.currentTrack, let songId = track.onlineSongId {
+                Button(showLyrics ? "隐藏歌词" : "显示歌词") {
+                    showLyrics.toggle()
+                }
+                .foregroundColor(theme.accentColor)
+            }
+            
+            // 歌词视图
+            if showLyrics, let track = player.currentTrack, let songId = track.onlineSongId {
+                LyricsView(songId: songId)
+                    .frame(height: 200)
             }
             
             // 进度条
