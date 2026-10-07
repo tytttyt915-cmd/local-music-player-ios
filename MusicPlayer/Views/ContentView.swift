@@ -15,7 +15,7 @@ struct ContentView: View {
     var body: some View {
         GeometryReader { geo in
             ZStack(alignment: .bottom) {
-                theme.backgroundColor.ignoresSafeArea()
+                DynamicAuraBackground()
                 
                 VStack(spacing: 0) {
                     Group {
