@@ -168,6 +168,8 @@ final class NeteaseAPI: ObservableObject {
 
     private init() {
         let config = URLSessionConfiguration.default
+        config.timeoutIntervalForRequest = 5
+        config.timeoutIntervalForResource = 10
         config.requestCachePolicy = .returnCacheDataElseLoad
         config.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024,
                                    diskCapacity: 100 * 1024 * 1024,
