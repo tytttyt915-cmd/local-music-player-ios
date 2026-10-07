@@ -3,7 +3,7 @@ import Combine
 
 /// 主题设置 - 干净重写版
 class ThemeSettings: ObservableObject {
-    enum AccentChoice: String, CaseIterable {
+    enum AccentChoice: String, CaseIterable, Codable {
         case red = "红色"
         case orange = "橙色"
         case yellow = "黄色"
