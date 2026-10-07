@@ -30,6 +30,6 @@ struct LocalMusicView: View {
             .navigationTitle("本地")
             .background(theme.backgroundColor.ignoresSafeArea())
         }
-        .onAppear { library.scan() }
+        .onAppear { library.refresh() }
     }
 }
