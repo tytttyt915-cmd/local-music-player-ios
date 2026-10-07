@@ -1,5 +1,15 @@
 import SwiftUI
 
+// 清理专辑/歌单名称末尾的多余标点
+private func cleanTitle(_ s: String) -> String {
+    var t = s.trimmingCharacters(in: .whitespacesAndNewlines)
+    while let last = t.last, ",，.。、;；:：!！?？".contains(last) {
+        t.removeLast()
+        t = t.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    return t
+}
+
 /// v3 发现页：每日推荐 / 私人漫游 / 排行榜 / 新碟上架 / 推荐歌单 / 热门歌手
 /// 样式对标参考 App；全部走网易云后端真实数据
 struct DiscoverView: View {
@@ -31,7 +41,7 @@ struct DiscoverView: View {
                     artistsSection
                 }
                 .padding(.top, max(geo.safeAreaInsets.top, 16) + 44)
-                .padding(.bottom, 20)
+                .padding(.bottom, 120)
                 .frame(minHeight: geo.size.height)
             }
         }
@@ -93,15 +103,32 @@ struct DiscoverView: View {
                     .foregroundColor(.white.opacity(0.6))
             }
             Spacer()
-            // 悬浮搜索按钮（圆形）
-            Button { showSearch = true } label: {
-                Image(systemName: "magnifyingglass")
-                    .font(.title3)
-                    .foregroundColor(.white)
+            // 右侧按钮组：水平排列，带间距
+            HStack(spacing: 12) {
+                // 搜索按钮（圆形）
+                Button { showSearch = true } label: {
+                    Image(systemName: "magnifyingglass")
+                        .font(.title3)
+                        .foregroundColor(.white)
+                        .frame(width: 44, height: 44)
+                        .background(Circle().fill(Color.white.opacity(0.12)))
+                }
+                .buttonStyle(.plain)
+                // 个人中心按钮（圆形头像）
+                Button { showProfile = true } label: {
+                    Group {
+                        if let data = profile.avatarData, let img = UIImage(data: data) {
+                            Image(uiImage: img).resizable().scaledToFill()
+                        } else {
+                            Circle().fill(Color.white.opacity(0.12))
+                                .overlay(Image(systemName: "person.fill").foregroundColor(.white.opacity(0.7)))
+                        }
+                    }
                     .frame(width: 44, height: 44)
-                    .background(Circle().fill(Color.white.opacity(0.12)))
+                    .clipShape(Circle())
+                }
+                .buttonStyle(.plain)
             }
-            .buttonStyle(.plain)
         }
         .padding(.horizontal, 20)
     }
