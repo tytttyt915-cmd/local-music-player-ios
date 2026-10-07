@@ -36,6 +36,7 @@
 		AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F901E5C98B3E485DB0665238 /* PlayerBar.swift */; };
 		4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */; };
 		9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */; };
+		86979C7E590B41A5A28D9ED3 /* MultiSourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70F1817157046758462031F /* MultiSourceService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		F901E5C98B3E485DB0665238 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
 		629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeSettings+Ext.swift"; sourceTree = "<group>"; };
 		1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicAuraBackground.swift; sourceTree = "<group>"; };
+		F70F1817157046758462031F /* MultiSourceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSourceService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				C1B2C3D4E5F6000100000018 /* NeteaseAPI.swift */,
+				F70F1817157046758462031F /* MultiSourceService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -277,6 +280,7 @@
 				AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */,
 				4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */,
 				9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */,
+				86979C7E590B41A5A28D9ED3 /* MultiSourceService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
