@@ -297,6 +297,38 @@ final class NeteaseAPI: ObservableObject {
         }
     }
 
+    /// 多音源兜底：本平台按音质逐级降级 → 其他平台同名歌曲（同样降级）
+    /// 解决无版权 / 接口超时导致的播放静默失败
+    func songURLWithFallback(for song: OnlineSong) async throws -> URL {
+        if let cached = urlCache[song.id] { return cached }
+        let levels = ["exhigh", "higher", "standard"]
+
+        // 1. 本平台：按音质逐级降级重试
+        for level in levels {
+            if let url = try? await fetchSongURL(id: song.id, level: level) {
+                urlCache[song.id] = url
+                return url
+            }
+        }
+
+        // 2. 其他平台同名歌曲兜底（QQ / 酷狗 …）
+        if sourcePolicy != .official {
+            for src in MusicSource.allCases where src != song.source {
+                guard let results = try? await searchAggregated(
+                    keyword: "\(song.title) \(song.artist)", source: src, limit: 5),
+                      let match = results.first else { continue }
+                for level in levels {
+                    if let url = try? await fetchSongURL(id: match.id, level: level) {
+                        urlCache[song.id] = url
+                        return url
+                    }
+                }
+            }
+        }
+
+        throw APIError.noPlayableURL
+    }
+
     private func fetchSongURL(id: Int, level: String) async throws -> URL {
         let data = try await get("/song/url",
                                  params: ["id": "\(id)", "level": level,
