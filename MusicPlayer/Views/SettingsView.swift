@@ -11,7 +11,10 @@ struct SettingsView: View {
                             Text(c.rawValue).tag(c)
                         }
                     }
-                    Toggle("深色模式", isOn: $theme.darkMode)
+                }
+                Section("显示") {
+                    Toggle("灵动岛", isOn: $theme.showDynamicIsland)
+                    Toggle("隐藏Tab栏", isOn: $theme.tabBarHidden)
                 }
             }
             .navigationTitle("设置")
