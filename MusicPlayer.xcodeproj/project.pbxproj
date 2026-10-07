@@ -29,6 +29,17 @@
 		20A7AE34EDA879126EA9518B /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BD007029AC770324B353228 /* ProfileView.swift */; };
 		98216C3D7734E473DC860DC8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */; };
 		491172DB1C98463BB79D61AD /* OnlineSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81ED32C20A454F53AA0B3639 /* OnlineSearchView.swift */; };
+		EE32BD99CE5C4A73AF212FE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6380006E86A475C85CF2576 /* ContentView.swift */; };
+		17CCA07FAFFF4D7FBB93A33B /* DiscoverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEFF688D71D34DACA91F48E6 /* DiscoverView.swift */; };
+		217582257B10464F964FD8DD /* TrackRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69B0D78EAE1E404DB8FD6EB7 /* TrackRow.swift */; };
+		4080C3DB21284BC380A45783 /* PlaylistPlazaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08364F28A9E34309BDA24E5E /* PlaylistPlazaView.swift */; };
+		E7CAB757D7464AE19C92BBCF /* ArtistsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846E58DC387A4434A469272B /* ArtistsView.swift */; };
+		CA834EDE16EF4E48A5F8247A /* LocalMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA45674898A4CB8AC5990D3 /* LocalMusicView.swift */; };
+		9A6BA2C97E2747F1B3CB3C88 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F45DCACB63475D864797A5 /* ProfileView.swift */; };
+		BB1272344E6544BC9689554D /* MiniPlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE2260C246C7437680D4B7C5 /* MiniPlayerBar.swift */; };
+		695B2875CF584812A99D0E30 /* FullPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */; };
+		26B9D6440F2A4DE4AF9BECE2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F835FCA7A9D413D9CA94996 /* SettingsView.swift */; };
+		0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +67,17 @@
 		0BD007029AC770324B353228 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		81ED32C20A454F53AA0B3639 /* OnlineSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineSearchView.swift; sourceTree = "<group>"; };
+		A6380006E86A475C85CF2576 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		FEFF688D71D34DACA91F48E6 /* DiscoverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscoverView.swift; sourceTree = "<group>"; };
+		69B0D78EAE1E404DB8FD6EB7 /* TrackRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackRow.swift; sourceTree = "<group>"; };
+		08364F28A9E34309BDA24E5E /* PlaylistPlazaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistPlazaView.swift; sourceTree = "<group>"; };
+		846E58DC387A4434A469272B /* ArtistsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtistsView.swift; sourceTree = "<group>"; };
+		1BA45674898A4CB8AC5990D3 /* LocalMusicView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalMusicView.swift; sourceTree = "<group>"; };
+		D2F45DCACB63475D864797A5 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		DE2260C246C7437680D4B7C5 /* MiniPlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniPlayerBar.swift; sourceTree = "<group>"; };
+		BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPlayerView.swift; sourceTree = "<group>"; };
+		4F835FCA7A9D413D9CA94996 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeteaseLoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +150,18 @@
 				4DD87A83EF6F6D78D5824C28 /* FullPlayerView.swift */,
 				0BD007029AC770324B353228 /* ProfileView.swift */,
 				55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */,
+			
+				A6380006E86A475C85CF2576 /* ContentView.swift */,
+				FEFF688D71D34DACA91F48E6 /* DiscoverView.swift */,
+				69B0D78EAE1E404DB8FD6EB7 /* TrackRow.swift */,
+				08364F28A9E34309BDA24E5E /* PlaylistPlazaView.swift */,
+				846E58DC387A4434A469272B /* ArtistsView.swift */,
+				1BA45674898A4CB8AC5990D3 /* LocalMusicView.swift */,
+				D2F45DCACB63475D864797A5 /* ProfileView.swift */,
+				DE2260C246C7437680D4B7C5 /* MiniPlayerBar.swift */,
+				BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */,
+				4F835FCA7A9D413D9CA94996 /* SettingsView.swift */,
+				8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -232,6 +266,17 @@
 				572F08D8407E578A327F088E /* FullPlayerView.swift in Sources */,
 				20A7AE34EDA879126EA9518B /* ProfileView.swift in Sources */,
 				98216C3D7734E473DC860DC8 /* SettingsView.swift in Sources */,
+				EE32BD99CE5C4A73AF212FE3 /* ContentView.swift in Sources */,
+				17CCA07FAFFF4D7FBB93A33B /* DiscoverView.swift in Sources */,
+				217582257B10464F964FD8DD /* TrackRow.swift in Sources */,
+				4080C3DB21284BC380A45783 /* PlaylistPlazaView.swift in Sources */,
+				E7CAB757D7464AE19C92BBCF /* ArtistsView.swift in Sources */,
+				CA834EDE16EF4E48A5F8247A /* LocalMusicView.swift in Sources */,
+				9A6BA2C97E2747F1B3CB3C88 /* ProfileView.swift in Sources */,
+				BB1272344E6544BC9689554D /* MiniPlayerBar.swift in Sources */,
+				695B2875CF584812A99D0E30 /* FullPlayerView.swift in Sources */,
+				26B9D6440F2A4DE4AF9BECE2 /* SettingsView.swift in Sources */,
+				0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
