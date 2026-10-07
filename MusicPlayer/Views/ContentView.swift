@@ -49,7 +49,7 @@ struct ContentView: View {
             VStack(spacing: 8) {
                 // Mini播放器
                 if player.currentTrack != nil {
-                    MiniPlayerBar(showFullPlayer: $showFullPlayer)
+                    MiniPlayerBar(onTap: { showFullPlayer = true })
                         .padding(.horizontal, 12)
                 }
                 // 悬浮胶囊TabBar
@@ -57,6 +57,8 @@ struct ContentView: View {
             }
             .padding(.bottom, 8)
         }
+        .environmentObject(player)
+        .environmentObject(theme)
         .fullScreenCover(isPresented: $showFullPlayer) {
             FullPlayerView()
         }
