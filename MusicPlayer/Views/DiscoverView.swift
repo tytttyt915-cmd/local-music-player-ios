@@ -68,7 +68,7 @@ struct DiscoverView: View {
             }
             .navigationTitle("发现")
             .navigationBarTitleDisplayMode(.large)
-            .background(theme.backgroundColor.ignoresSafeArea())
+            .background(Color.clear)
         }
     }
     

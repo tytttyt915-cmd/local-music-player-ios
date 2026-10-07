@@ -28,7 +28,7 @@ struct LocalMusicView: View {
                 }
             }
             .navigationTitle("本地")
-            .background(theme.backgroundColor.ignoresSafeArea())
+            .background(Color.clear)
         }
         .onAppear { library.refresh() }
     }

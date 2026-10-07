@@ -31,7 +31,7 @@ struct PlaylistPlazaView: View {
                 .listStyle(.plain)
             }
             .navigationTitle("歌单广场")
-            .background(theme.backgroundColor.ignoresSafeArea())
+            .background(Color.clear)
         }
     }
     

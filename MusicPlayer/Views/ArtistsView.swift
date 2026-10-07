@@ -23,7 +23,7 @@ struct ArtistsView: View {
                 }
             }
             .navigationTitle("歌手")
-            .background(theme.backgroundColor.ignoresSafeArea())
+            .background(Color.clear)
         }
         .onAppear { load() }
     }
