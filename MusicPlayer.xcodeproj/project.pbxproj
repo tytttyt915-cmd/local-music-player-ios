@@ -33,6 +33,9 @@
 		0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */; };
 		22B8CF094682499294A0CEFE /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FFBDC9E8B24196B7CA70E9 /* ThemeSettings.swift */; };
 		29B93E0669284F29982A13E5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8684881B22B45E38797069A /* UserProfile.swift */; };
+		1FADDB8CB29E4EAC9AD0C836 /* OnlineSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAB703FA10D04E8DB2B9B28D /* OnlineSearchView.swift */; };
+		BB13971DBECE4C6AA3F45044 /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859F7059145547FDAF85F40A /* ArtworkView.swift */; };
+		AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F901E5C98B3E485DB0665238 /* PlayerBar.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -73,6 +76,9 @@
 		8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeteaseLoginView.swift; sourceTree = "<group>"; };
 		36FFBDC9E8B24196B7CA70E9 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
 		F8684881B22B45E38797069A /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
+		CAB703FA10D04E8DB2B9B28D /* OnlineSearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineSearchView.swift; sourceTree = "<group>"; };
+		859F7059145547FDAF85F40A /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
+		F901E5C98B3E485DB0665238 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +163,9 @@
 				BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */,
 				4F835FCA7A9D413D9CA94996 /* SettingsView.swift */,
 				8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */,
+				CAB703FA10D04E8DB2B9B28D /* OnlineSearchView.swift */,
+				859F7059145547FDAF85F40A /* ArtworkView.swift */,
+				F901E5C98B3E485DB0665238 /* PlayerBar.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -265,6 +274,9 @@
 				0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */,
 				22B8CF094682499294A0CEFE /* ThemeSettings.swift in Sources */,
 				29B93E0669284F29982A13E5 /* UserProfile.swift in Sources */,
+				1FADDB8CB29E4EAC9AD0C836 /* OnlineSearchView.swift in Sources */,
+				BB13971DBECE4C6AA3F45044 /* ArtworkView.swift in Sources */,
+				AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
