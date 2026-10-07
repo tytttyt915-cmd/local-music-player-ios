@@ -40,6 +40,8 @@
 		695B2875CF584812A99D0E30 /* FullPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */; };
 		26B9D6440F2A4DE4AF9BECE2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F835FCA7A9D413D9CA94996 /* SettingsView.swift */; };
 		0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */; };
+		22B8CF094682499294A0CEFE /* ThemeSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36FFBDC9E8B24196B7CA70E9 /* ThemeSettings.swift */; };
+		29B93E0669284F29982A13E5 /* UserProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8684881B22B45E38797069A /* UserProfile.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +80,8 @@
 		BE62DF4CC9B6443B97A62B07 /* FullPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullPlayerView.swift; sourceTree = "<group>"; };
 		4F835FCA7A9D413D9CA94996 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		8219DE2E83344F66BED38AB6 /* NeteaseLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeteaseLoginView.swift; sourceTree = "<group>"; };
+		36FFBDC9E8B24196B7CA70E9 /* ThemeSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSettings.swift; sourceTree = "<group>"; };
+		F8684881B22B45E38797069A /* UserProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfile.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,8 @@
 			children = (
 				C1B2C3D4E5F6000100000002 /* Track.swift */,
 				C1B2C3D4E5F6000100000003 /* FavoriteStore.swift */,
+				36FFBDC9E8B24196B7CA70E9 /* ThemeSettings.swift */,
+				F8684881B22B45E38797069A /* UserProfile.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -277,6 +283,8 @@
 				695B2875CF584812A99D0E30 /* FullPlayerView.swift in Sources */,
 				26B9D6440F2A4DE4AF9BECE2 /* SettingsView.swift in Sources */,
 				0C575B90360C45629EA73CD5 /* NeteaseLoginView.swift in Sources */,
+				22B8CF094682499294A0CEFE /* ThemeSettings.swift in Sources */,
+				29B93E0669284F29982A13E5 /* UserProfile.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
