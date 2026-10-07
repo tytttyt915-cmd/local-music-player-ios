@@ -24,6 +24,7 @@ struct DiscoverView: View {
     @State private var showSearch = false
     @State private var showProfile = false
     @EnvironmentObject private var profile: UserProfile
+    @EnvironmentObject private var favorites: FavoriteStore
     @State private var showPlaylistPlaza = false
     @State private var selectedPlaylist: OnlinePlaylist?
     @State private var selectedArtist: OnlineArtist?
