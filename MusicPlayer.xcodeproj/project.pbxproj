@@ -37,6 +37,7 @@
 		4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */; };
 		9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */; };
 		86979C7E590B41A5A28D9ED3 /* MultiSourceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F70F1817157046758462031F /* MultiSourceService.swift */; };
+		23F1E3E8E44945B09DB1038C /* LyricsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB2294497AF14B4B83EAD057 /* LyricsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +82,7 @@
 		629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeSettings+Ext.swift"; sourceTree = "<group>"; };
 		1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicAuraBackground.swift; sourceTree = "<group>"; };
 		F70F1817157046758462031F /* MultiSourceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiSourceService.swift; sourceTree = "<group>"; };
+		DB2294497AF14B4B83EAD057 /* LyricsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,6 +170,7 @@
 				859F7059145547FDAF85F40A /* ArtworkView.swift */,
 				F901E5C98B3E485DB0665238 /* PlayerBar.swift */,
 				1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */,
+				DB2294497AF14B4B83EAD057 /* LyricsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */,
 				9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */,
 				86979C7E590B41A5A28D9ED3 /* MultiSourceService.swift in Sources */,
+				23F1E3E8E44945B09DB1038C /* LyricsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
