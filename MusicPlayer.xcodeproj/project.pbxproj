@@ -35,6 +35,7 @@
 		BB13971DBECE4C6AA3F45044 /* ArtworkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859F7059145547FDAF85F40A /* ArtworkView.swift */; };
 		AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F901E5C98B3E485DB0665238 /* PlayerBar.swift */; };
 		4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */; };
+		9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -77,6 +78,7 @@
 		859F7059145547FDAF85F40A /* ArtworkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkView.swift; sourceTree = "<group>"; };
 		F901E5C98B3E485DB0665238 /* PlayerBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerBar.swift; sourceTree = "<group>"; };
 		629AF278C7AE4FC6AE00B682 /* ThemeSettings+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ThemeSettings+Ext.swift"; sourceTree = "<group>"; };
+		1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicAuraBackground.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +165,7 @@
 				CAB703FA10D04E8DB2B9B28D /* OnlineSearchView.swift */,
 				859F7059145547FDAF85F40A /* ArtworkView.swift */,
 				F901E5C98B3E485DB0665238 /* PlayerBar.swift */,
+				1396D703BD894565AF736B74 /* DynamicAuraBackground.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -273,6 +276,7 @@
 				BB13971DBECE4C6AA3F45044 /* ArtworkView.swift in Sources */,
 				AB1D1DF011DF4ADC8397C894 /* PlayerBar.swift in Sources */,
 				4B09E785BAC54F8DB33005BF /* ThemeSettings+Ext.swift in Sources */,
+				9083D967D5734A1EBA770240 /* DynamicAuraBackground.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
