@@ -135,7 +135,16 @@ final class AudioPlayerManager: ObservableObject {
 
     @discardableResult
     func next() -> Bool {
-        guard !order.isEmpty else { return false }
+        guard !queue.isEmpty, !order.isEmpty else { return false }
+        // 校验映射表指针有效性，防止越界崩溃
+        guard order.indices.contains(orderPos) else {
+            resetOrder()
+            if order.indices.contains(orderPos) {
+                playCurrent()
+                return true
+            }
+            return false
+        }
         if orderPos + 1 < order.count {
             orderPos += 1
             playCurrent()
@@ -149,17 +158,39 @@ final class AudioPlayerManager: ObservableObject {
     }
 
     func previous() {
-        guard !order.isEmpty else { return }
+        guard !queue.isEmpty, !order.isEmpty else { return }
         if currentTime > 3 {
             seek(to: 0)
+            return
+        }
+        // 校验映射表指针有效性
+        guard order.indices.contains(orderPos) else {
+            resetOrder()
             return
         }
         if orderPos > 0 {
             orderPos -= 1
             playCurrent()
+        } else if repeatMode == .all, !order.isEmpty {
+            orderPos = order.count - 1
+            playCurrent()
         } else {
             seek(to: 0)
         }
+    }
+
+    // 重置播放顺序映射表（越界保护）
+    private func resetOrder() {
+        guard !queue.isEmpty else {
+            order = []
+            orderPos = 0
+            return
+        }
+        order = Array(0..<queue.count)
+        if isShuffled {
+            order.shuffle()
+        }
+        orderPos = 0
     }
 
     func seek(to seconds: Double) {
