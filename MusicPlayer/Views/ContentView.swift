@@ -71,7 +71,17 @@ struct ContentView: View {
         }
         .padding(.top, 10)
         .padding(.bottom, geo.safeAreaInsets.bottom + 10)
-        .background(theme.backgroundColor.opacity(0.95))
+        .background(glassBackground())
+    }
+    
+    @ViewBuilder
+    private func glassBackground() -> some View {
+        if #available(iOS 26, *) {
+            theme.backgroundColor.opacity(0.5)
+                .glassEffect(.regular, in: .rect(cornerRadius: 0))
+        } else {
+            theme.backgroundColor.opacity(0.95)
+        }
     }
     
     private func icon(_ i: Int) -> String {
