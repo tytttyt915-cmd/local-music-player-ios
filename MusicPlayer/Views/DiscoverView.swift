@@ -71,7 +71,11 @@ struct DiscoverView: View {
     // MARK: - Background（磨砂 + 壁纸，v1 星空主题已扔掉）
     private var background: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
+            if theme.dynamicAuraEnabled {
+                DynamicAuraBackground(artworkImage: nil)
+            } else {
+                Color.black.ignoresSafeArea()
+            }
 
             if let data = theme.wallpaperData, let uiImage = UIImage(data: data) {
                 Image(uiImage: uiImage)
