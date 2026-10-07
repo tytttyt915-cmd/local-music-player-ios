@@ -9,7 +9,6 @@ struct SettingsView: View {
 
     @State private var showWallpaperPicker = false
     @State private var dailyRecOldStyle = false
-    @State private var cacheSizeText = "计算中..."
 
     var body: some View {
         ZStack {
@@ -79,20 +78,6 @@ struct SettingsView: View {
                     Toggle("每日推荐旧版样式", isOn: $dailyRecOldStyle)
                 }
 
-                // 存储与缓存
-                Section("存储与缓存") {
-                    HStack {
-                        Text("缓存大小")
-                        Spacer()
-                        Text(cacheSizeText).foregroundColor(.gray)
-                    }
-                    Button("清理缓存") {
-                        URLCache.shared.removeAllCachedResponses()
-                        updateCacheSize()
-                    }
-                    .foregroundColor(.red)
-                }
-
                 // 关于
                 Section("关于") {
                     HStack {
@@ -107,16 +92,10 @@ struct SettingsView: View {
         }
         .navigationTitle("设置")
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear { updateCacheSize() }
         .sheet(isPresented: $showWallpaperPicker) {
             ImagePicker { data in
                 theme.wallpaperData = data
             }
         }
-    }
-
-    private func updateCacheSize() {
-        let bytes = URLCache.shared.currentDiskUsage
-        cacheSizeText = String(format: "%.1f MB", Double(bytes) / 1024 / 1024)
     }
 }

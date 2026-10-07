@@ -7,10 +7,8 @@ struct ProfileView: View {
     @EnvironmentObject private var theme: ThemeSettings
     @EnvironmentObject private var player: AudioPlayerManager
     @EnvironmentObject private var favorites: FavoriteStore
-    @StateObject private var auth = NeteaseAuthManager.shared
 
     @State private var showAvatarPicker = false
-    @State private var showLoginSheet = false
     @State private var showNicknameEditor = false
     @State private var eggTaps = 0
     @State private var showEgg = false
@@ -37,9 +35,6 @@ struct ProfileView: View {
             ImagePicker { data in
                 profile.avatarData = data
             }
-        }
-        .sheet(isPresented: $showLoginSheet) {
-            NeteaseLoginView()
         }
         .alert("修改昵称", isPresented: $showNicknameEditor) {
             TextField("昵称", text: $profile.nickname)
@@ -131,18 +126,6 @@ struct ProfileView: View {
 
     private var menuList: some View {
         VStack(spacing: 2) {
-            menuRow(
-                icon: "person.crop.circle.badge.checkmark",
-                title: auth.isLoggedIn
-                    ? "退出网易云 (\(auth.nickname.isEmpty ? "网易云账号" : auth.nickname))"
-                    : "网易云登录"
-            ) {
-                if auth.isLoggedIn {
-                    auth.logout()
-                } else {
-                    showLoginSheet = true
-                }
-            }
             menuRow(icon: "heart.fill", title: "我的收藏") {}
             menuRow(icon: "clock.fill", title: "最近播放") {}
             menuRow(icon: "square.and.arrow.down.fill", title: "本地缓存管理") {}
