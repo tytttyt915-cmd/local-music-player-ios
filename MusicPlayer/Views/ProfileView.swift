@@ -14,8 +14,7 @@ struct ProfileView: View {
                         Circle().fill(theme.accentColor).frame(width: 60, height: 60)
                         VStack(alignment: .leading) {
                             Text(profile.nickname).font(.headline)
-                            Text(profile.isLoggedIn ? "已登录" : "未登录")
-                                .font(.caption).foregroundColor(.gray)
+                            Text("未登录").font(.caption).foregroundColor(.gray)
                         }
                     }
                 }
