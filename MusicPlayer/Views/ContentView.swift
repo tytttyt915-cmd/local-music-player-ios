@@ -29,8 +29,7 @@ struct ContentView: View {
                         }
                     }
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    
-                    Spacer().frame(height: bottomInset(geo: geo))
+                    .padding(.bottom, bottomInset(geo: geo))
                 }
                 
                 VStack(spacing: 0) {
