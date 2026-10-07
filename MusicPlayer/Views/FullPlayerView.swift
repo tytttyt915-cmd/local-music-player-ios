@@ -196,6 +196,7 @@ struct FullPlayerView: View {
                 .gesture(
                     DragGesture(minimumDistance: 0)
                         .onChanged { value in
+                            guard player.duration.isFinite, player.duration > 0 else { return }
                             let ratio = min(max(value.location.x / geo.size.width, 0), 1)
                             player.seek(to: ratio * player.duration)
                         }
@@ -213,9 +214,18 @@ struct FullPlayerView: View {
         .padding(.top, 8)
     }
 
+    // 安全时长：防止 duration 为 0、NaN 或无限大导致崩溃
+    private var safeDuration: Double {
+        if player.duration.isNaN || player.duration.isInfinite || player.duration <= 0 {
+            return 1.0
+        }
+        return player.duration
+    }
+
     private func progressWidth(total: CGFloat) -> CGFloat {
-        guard player.duration > 0 else { return 0 }
-        return total * CGFloat(player.currentTime / player.duration)
+        guard player.duration.isFinite, player.duration > 0 else { return 0 }
+        let clampedTime = min(max(player.currentTime, 0), player.duration)
+        return total * CGFloat(clampedTime / player.duration)
     }
 
     // MARK: - Controls
