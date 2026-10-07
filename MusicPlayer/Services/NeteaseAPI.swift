@@ -4,7 +4,13 @@ import Foundation
 
 /// 后端网关配置
 enum APIConfig {
-    static let neteaseBase = "http://111.230.155.174:3000"
+    static let defaultBase = "http://111.230.155.174:3000"
+    /// 可配置的 API 节点：用户可在设置中自定义，默认使用内置节点
+    static var neteaseBase: String {
+        let custom = UserDefaults.standard.string(forKey: "custom_api_base_url") ?? ""
+        let trimmed = custom.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? defaultBase : trimmed
+    }
     static let realIP = "116.25.146.177"
 }
 
