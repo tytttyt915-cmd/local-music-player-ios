@@ -7,39 +7,78 @@ struct DiscoverView: View {
     @State private var keyword = ""
     @State private var results: [OnlineSong] = []
     @State private var isSearching = false
+    @State private var errorMessage: String?
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(spacing: 0) {
+                // 搜索栏
                 HStack {
-                    TextField("搜索歌曲", text: $keyword, onCommit: search)
-                        .textFieldStyle(.roundedBorder)
-                    Button("搜索", action: search)
-                }
-                .padding()
-                if isSearching { ProgressView().padding() }
-                List(results) { song in
-                    Button {
-                        if let idx = results.firstIndex(where: { $0.id == song.id }) {
-                            player.playOnlineSongs(results, startAt: idx)
-                        }
-                    } label: {
-                        VStack(alignment: .leading) {
-                            Text(song.title).foregroundColor(theme.textColor)
-                            Text(song.artist).font(.caption).foregroundColor(theme.secondaryTextColor)
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(theme.secondaryTextColor)
+                    TextField("搜索歌曲、歌手", text: $keyword, onCommit: search)
+                        .textFieldStyle(.plain)
+                    if !keyword.isEmpty {
+                        Button { keyword = "" } label: {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(theme.secondaryTextColor)
                         }
                     }
                 }
-                .listStyle(.plain)
+                .padding(10)
+                .background(Color.gray.opacity(0.15))
+                .cornerRadius(10)
+                .padding()
+                
+                if isSearching {
+                    ProgressView()
+                        .padding()
+                } else if let error = errorMessage {
+                    Text(error)
+                        .foregroundColor(.red)
+                        .padding()
+                } else if results.isEmpty && !keyword.isEmpty {
+                    Text("无搜索结果")
+                        .foregroundColor(theme.secondaryTextColor)
+                        .padding()
+                } else {
+                    List(results) { song in
+                        Button {
+                            if let idx = results.firstIndex(where: { $0.id == song.id }) {
+                                player.playOnlineSongs(results, startAt: idx)
+                            }
+                        } label: {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(song.title)
+                                        .foregroundColor(theme.textColor)
+                                        .lineLimit(1)
+                                    Text("\(song.artist) · \(song.album)")
+                                        .font(.caption)
+                                        .foregroundColor(theme.secondaryTextColor)
+                                        .lineLimit(1)
+                                }
+                                Spacer()
+                                if player.loadingSongId == song.id {
+                                    ProgressView()
+                                }
+                            }
+                        }
+                    }
+                    .listStyle(.plain)
+                }
+                Spacer()
             }
             .navigationTitle("发现")
+            .navigationBarTitleDisplayMode(.large)
             .background(theme.backgroundColor.ignoresSafeArea())
         }
     }
     
     private func search() {
-        guard !keyword.isEmpty else { return }
+        guard !keyword.trimmingCharacters(in: .whitespaces).isEmpty else { return }
         isSearching = true
+        errorMessage = nil
         Task {
             do {
                 let songs = try await api.searchSongs(keyword: keyword)
@@ -48,7 +87,10 @@ struct DiscoverView: View {
                     isSearching = false
                 }
             } catch {
-                await MainActor.run { isSearching = false }
+                await MainActor.run {
+                    errorMessage = "搜索失败：\(error.localizedDescription)"
+                    isSearching = false
+                }
             }
         }
     }
