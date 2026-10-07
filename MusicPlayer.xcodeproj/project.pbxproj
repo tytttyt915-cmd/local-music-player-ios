@@ -148,7 +148,6 @@
 				C1B2C3D4E5F6000100000009 /* TrackRow.swift */,
 				C1B2C3D4E5F6000100000010 /* ArtworkView.swift */,
 				C1B2C3D4E5F6000100000011 /* PlayerBar.swift */,
-			
 				DD25FECF6C0C0051F6D0E626 /* DiscoverView.swift */,
 				FF0955D5A2B91D3472DA3FBC /* PlaylistPlazaView.swift */,
 				BEC5C7DF774B931BE2EC0827 /* ArtistsView.swift */,
@@ -156,7 +155,6 @@
 				4DD87A83EF6F6D78D5824C28 /* FullPlayerView.swift */,
 				0BD007029AC770324B353228 /* ProfileView.swift */,
 				55527A7EEC0E2F0748F6FAA6 /* SettingsView.swift */,
-			
 				A6380006E86A475C85CF2576 /* ContentView.swift */,
 				FEFF688D71D34DACA91F48E6 /* DiscoverView.swift */,
 				69B0D78EAE1E404DB8FD6EB7 /* TrackRow.swift */,
